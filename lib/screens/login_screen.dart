@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_app/methods/method.dart';
+import 'package:flutter_chat_app/screens/home_screen.dart';
 import 'package:flutter_chat_app/screens/signup_screen.dart';
-import 'package:flutter_chat_app/widgets/custom_button.dart';
+
 import 'package:flutter_chat_app/widgets/field.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -68,8 +70,32 @@ class _LoginScreenState extends State<LoginScreen> {
           SizedBox(
             height: size.height / 20,
           ),
-          SizedBox(
-            child: customButton(size, "Login"),
+          Container(
+            height: size.height / 14,
+            width: size.width / 5,
+            alignment: Alignment.center,
+            child: ElevatedButton(
+              onPressed: () {
+                if(email.text.isNotEmpty && password.text.isNotEmpty){
+                  logIn(email.text, password.text).then((user) {
+                    if(user != null){
+                      print("login done");
+                      Navigator.push(context, MaterialPageRoute(builder:(_) => const HomeScreen()) );
+                    }
+                      
+                    else
+                      print("login failed");
+                  });
+                }
+              },
+              child: const Text(
+                'Login',
+                style: TextStyle(
+                  fontWeight: FontWeight.normal,
+                  fontSize: 22,
+                ),
+              ),
+            ),
           ),
           SizedBox(
             height: size.height / 40,
