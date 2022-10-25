@@ -8,10 +8,9 @@ class Authenticate extends StatelessWidget {
   final FirebaseAuth auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
-    if(auth.currentUser != null){
+    if (auth.currentUser != null) {
       return HomeScreen();
-    }
-    else{
+    } else {
       return LoginScreen();
     }
   }

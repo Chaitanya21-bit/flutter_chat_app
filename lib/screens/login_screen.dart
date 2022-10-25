@@ -76,14 +76,15 @@ class _LoginScreenState extends State<LoginScreen> {
             alignment: Alignment.center,
             child: ElevatedButton(
               onPressed: () {
-                if(email.text.isNotEmpty && password.text.isNotEmpty){
+                if (email.text.isNotEmpty && password.text.isNotEmpty) {
                   logIn(email.text, password.text).then((user) {
-                    if(user != null){
+                    if (user != null) {
                       print("login done");
-                      Navigator.push(context, MaterialPageRoute(builder:(_) => const HomeScreen()) );
-                    }
-                      
-                    else
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => const HomeScreen()));
+                    } else
                       print("login failed");
                   });
                 }
