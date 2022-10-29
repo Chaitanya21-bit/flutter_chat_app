@@ -17,7 +17,8 @@ Future<User?> createAccount(String name, String email, String password) async {
       await firestore.collection("users").doc(auth.currentUser?.uid).set({
         "name" : name,
         "email" : email,
-        "status" : "Unavailable"
+        "status" : "Unavailable",
+        "uid" : auth.currentUser?.uid,
       });
       return user;
     } else {
