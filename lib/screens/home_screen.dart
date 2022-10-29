@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_app/methods/method.dart';
+import 'package:flutter_chat_app/screens/chat_room.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -10,14 +12,22 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  FirebaseAuth auth = FirebaseAuth.instance;
   Map<String?, dynamic>? userMap;
   final TextEditingController search = TextEditingController();
 
+  String chatRoomId(String user1, String user2) {
+    if (user1.toLowerCase().codeUnits[0] >
+        user2.toLowerCase().codeUnits[0]) {
+      return "$user1$user2";
+    } else {
+      return "$user2$user1";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-
     final size = MediaQuery.of(context).size;
-
 
     void onSearch() async {
       FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -86,7 +96,21 @@ class _HomeScreenState extends State<HomeScreen> {
           Container(
             child: userMap != null
                 ? ListTile(
-                    onTap: () {},
+                    onTap: () {
+                      print(auth.currentUser!);
+                      print(userMap!['name']);
+                      String roomId = chatRoomId(
+                          auth.currentUser!.displayName!, userMap!['name']);
+                      print(roomId);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => ChatRoom(
+                                  chatRoomId: roomId,
+                                  userMap: userMap!,
+                                )),
+                      );
+                    },
                     leading: const Icon(Icons.account_box, color: Colors.black),
                     title: Text(userMap!['name']),
                     subtitle: Text(userMap!['email']),
